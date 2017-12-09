@@ -19,11 +19,11 @@ public class BulletBehaviour : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
 
         if (other.tag != tag) {
-            if (tag == "Turret") {
+            if (other.tag == "Turret") {
                 print("Torreta destruida");
             } else if (other.tag == "Player") {
                 print("llamar hit player");
-                other.gameObject.GetComponent<Player>().hit();
+                other.gameObject.GetComponent<PlayerBehaviour>().hit();
             }
 
             Destroy(this.gameObject);

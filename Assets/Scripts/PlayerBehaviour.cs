@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class PlayerBehaviour : MonoBehaviour {
 
     public float acceleration = 1;
     public float turnAcceleration = 1;
     public GameObject bullet;
     public Rigidbody rb;
 
-    private int lifes = 4;
+    private int lifes = 3;
     private int discoveredBases = 0;
+    private static readonly int totalBases = 4;
 
     private void FixedUpdate() {
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -26,6 +27,12 @@ public class Player : MonoBehaviour {
         }
     }
 
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.R)) {
+            resetPosition();
+        }
+    }
+
     private void shoot() {
         GameObject newBullet =  Instantiate(bullet);
         newBullet.tag = this.tag;
@@ -34,7 +41,21 @@ public class Player : MonoBehaviour {
     }
 
     public void hit() {
+        lifes--;
+        if (lifes == 0) {
+            print("You lose");
+        }
+    }
 
+    public void baseFound() {
+        discoveredBases++;
+        if (discoveredBases == totalBases) {
+            print("Congratulations! You've found all bases");
+        }
+    }
+
+    private void resetPosition() {
+        transform.position = Vector3.zero;
     }
 
 }
