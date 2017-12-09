@@ -43,7 +43,7 @@ public class PlayerBehaviour : MonoBehaviour {
     }
 
     public void hit(Vector3 dir) {
-        //lifes--;
+        lifes--;
         rb.AddExplosionForce(500, transform.position - (dir.normalized * 0.1f), 1f);
         if (lifes == 0) {
             print("You lose");
