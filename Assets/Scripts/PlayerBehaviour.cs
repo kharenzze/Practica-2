@@ -56,6 +56,9 @@ public class PlayerBehaviour : MonoBehaviour {
         lifes = maxLives;
         if (discoveredBases == totalBases) {
             print("Congratulations! You've found all bases");
+        } else {
+            int basesToGo = totalBases - discoveredBases;
+            print(basesToGo + "more bases to go!");
         }
     }
 
