@@ -8,7 +8,7 @@ public class BulletBehaviour : MonoBehaviour {
 
     private Vector3 direction;
 
-    public void serDirection (Vector3 dir) {
+    public void setDirection (Vector3 dir) {
         direction = dir;
     }
 
@@ -17,6 +17,7 @@ public class BulletBehaviour : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        print("collision");
 
         if (other.tag != tag) {
             if (other.tag == "Turret") {

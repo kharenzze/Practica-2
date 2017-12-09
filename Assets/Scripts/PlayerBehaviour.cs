@@ -37,13 +37,14 @@ public class PlayerBehaviour : MonoBehaviour {
         GameObject newBullet =  Instantiate(bullet);
         newBullet.tag = this.tag;
         newBullet.transform.position = transform.position;
-        newBullet.GetComponent<BulletBehaviour>().serDirection(transform.forward);
+        newBullet.GetComponent<BulletBehaviour>().setDirection(transform.forward);
     }
 
     public void hit() {
         lifes--;
         if (lifes == 0) {
             print("You lose");
+            restart();
         }
     }
 
@@ -58,4 +59,8 @@ public class PlayerBehaviour : MonoBehaviour {
         transform.position = Vector3.zero;
     }
 
+    private void restart() {
+        lifes = 3;
+        resetPosition();
+    }
 }
