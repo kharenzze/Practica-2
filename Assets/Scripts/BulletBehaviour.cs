@@ -7,6 +7,12 @@ public class BulletBehaviour : MonoBehaviour {
     public float speed = 4;
 
     private Vector3 direction;
+    private static readonly float expireTime = 3;
+    private float creationTime = 0;
+
+    private void Start() {
+        creationTime = Time.time;
+    }
 
     public void setDirection (Vector3 dir) {
         direction = dir;
@@ -14,11 +20,10 @@ public class BulletBehaviour : MonoBehaviour {
 
     private void FixedUpdate() {
         transform.position = transform.position + direction * speed;
+        checkExpiration();
     }
 
     private void OnTriggerEnter(Collider other) {
-        print("collision");
-
         if (other.tag != tag) {
             if (other.tag == "Turret") {
                 Destroy(other.gameObject);
@@ -27,6 +32,12 @@ public class BulletBehaviour : MonoBehaviour {
             }
 
             Destroy(this.gameObject);
+        }
+    }
+
+    private void checkExpiration() {
+        if (Time.time > creationTime + expireTime ) {
+            Destroy(gameObject);
         }
     }
 }
