@@ -13,7 +13,7 @@ public class PlayerBehaviour : MonoBehaviour {
     private int lifes = 3;
     private int discoveredBases = 0;
     private static readonly int totalBases = 4;
-    private static readonly int maxLifes = 3;
+    private static readonly int maxLives = 3;
     private float lastShot = 0;
 
     private void FixedUpdate() {
@@ -53,7 +53,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public void baseFound() {
         discoveredBases++;
-        lifes = maxLifes;
+        lifes = maxLives;
         if (discoveredBases == totalBases) {
             print("Congratulations! You've found all bases");
         }
@@ -64,7 +64,7 @@ public class PlayerBehaviour : MonoBehaviour {
     }
 
     private void restart() {
-        lifes = maxLifes;
+        lifes = maxLives;
         discoveredBases = 0;
         resetBases();
         resetPosition();
