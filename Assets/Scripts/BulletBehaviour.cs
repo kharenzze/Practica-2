@@ -21,10 +21,9 @@ public class BulletBehaviour : MonoBehaviour {
 
         if (other.tag != tag) {
             if (other.tag == "Turret") {
-                print("Torreta destruida");
+                Destroy(other.gameObject);
             } else if (other.tag == "Player") {
-                print("llamar hit player");
-                other.gameObject.GetComponent<PlayerBehaviour>().hit();
+                other.gameObject.GetComponent<PlayerBehaviour>().hit(direction);
             }
 
             Destroy(this.gameObject);

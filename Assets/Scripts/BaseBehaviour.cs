@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseBehaviour : MonoBehaviour {
+    private bool hasBeenDetected = false;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "Player" && !hasBeenDetected) {
+            _highlight();
+            other.gameObject.GetComponent<PlayerBehaviour>().baseFound();
+            hasBeenDetected = true;
+        }
+    }
+
+    private void _highlight() {
+        this.GetComponent<Renderer>().materials[1].SetColor("_EmissionColor", Color.green);
+        this.GetComponent<Light>().enabled = true;
+    }
 }

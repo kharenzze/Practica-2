@@ -8,21 +8,22 @@ public class PlayerBehaviour : MonoBehaviour {
     public float turnAcceleration = 1;
     public GameObject bullet;
     public Rigidbody rb;
+    public float shootRate;
 
     private int lifes = 3;
     private int discoveredBases = 0;
     private static readonly int totalBases = 4;
+    private static readonly int maxLifes = 3;
+    private float lastShot = 0;
 
     private void FixedUpdate() {
-        Rigidbody rb = GetComponent<Rigidbody>();
-
         float forwardMovementRate = Input.GetAxis("Vertical");
         rb.AddForce(transform.forward * forwardMovementRate * acceleration);
 
         float rotationMovementRate = Input.GetAxis("Horizontal");
         rb.AddTorque(Vector3.up * rotationMovementRate * turnAcceleration);
 
-        if (Input.GetKey(KeyCode.Space)) {
+        if (Input.GetKey(KeyCode.Space) && canShoot()) {
             shoot();
         }
     }
@@ -34,14 +35,16 @@ public class PlayerBehaviour : MonoBehaviour {
     }
 
     private void shoot() {
-        GameObject newBullet =  Instantiate(bullet);
+        lastShot = Time.time;
+        GameObject newBullet = Instantiate(bullet);
         newBullet.tag = this.tag;
         newBullet.transform.position = transform.position;
         newBullet.GetComponent<BulletBehaviour>().setDirection(transform.forward);
     }
 
-    public void hit() {
-        lifes--;
+    public void hit(Vector3 dir) {
+        //lifes--;
+        rb.AddExplosionForce(500, transform.position - (dir.normalized * 0.1f), 1f);
         if (lifes == 0) {
             print("You lose");
             restart();
@@ -50,6 +53,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public void baseFound() {
         discoveredBases++;
+        lifes = maxLifes;
         if (discoveredBases == totalBases) {
             print("Congratulations! You've found all bases");
         }
@@ -60,7 +64,11 @@ public class PlayerBehaviour : MonoBehaviour {
     }
 
     private void restart() {
-        lifes = 3;
+        lifes = maxLifes;
         resetPosition();
+    }
+
+    private bool canShoot() {
+        return Time.time >= lastShot + shootRate;
     }
 }
