@@ -65,10 +65,20 @@ public class PlayerBehaviour : MonoBehaviour {
 
     private void restart() {
         lifes = maxLifes;
+        discoveredBases = 0;
+        resetBases();
         resetPosition();
     }
 
     private bool canShoot() {
         return Time.time >= lastShot + shootRate;
+    }
+
+    private void resetBases() {
+        GameObject[] bases = GameObject.FindGameObjectsWithTag("Base");
+        foreach (GameObject b in bases) {
+            print("rere");
+            b.GetComponent<BaseBehaviour>().reset();
+        }
     }
 }
